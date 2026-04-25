@@ -49,6 +49,16 @@ router.post('/', async (req, res) => {
   }
 });
 
+// DELETE /api/registros/purge — borrar todos los registros
+router.delete('/purge', async (req, res) => {
+  try {
+    const { rowCount } = await pool.query('DELETE FROM registros');
+    res.json({ ok: true, eliminados: rowCount });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 // POST /api/registros/lote — guardar múltiples registros (ingreso + egreso temprano)
 router.post('/lote', async (req, res) => {
   const client = await pool.connect();
