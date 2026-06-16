@@ -49,8 +49,12 @@ router.post('/', async (req, res) => {
   }
 });
 
-// DELETE /api/registros/purge — borrar todos los registros
+// DELETE /api/registros/purge — borrar todos los registros (requiere header x-admin-key)
 router.delete('/purge', async (req, res) => {
+  const adminKey = process.env.ADMIN_KEY;
+  if (!adminKey || req.headers['x-admin-key'] !== adminKey) {
+    return res.status(403).json({ ok: false, error: 'No autorizado' });
+  }
   try {
     const { rowCount } = await pool.query('DELETE FROM registros');
     res.json({ ok: true, eliminados: rowCount });
