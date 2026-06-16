@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS registros (
   modulo          TEXT DEFAULT 'general',
   egreso_temprano BOOLEAN DEFAULT FALSE,
   grupo_id        TEXT,
-  usuario         TEXT DEFAULT 'sistema'
+  usuario         TEXT DEFAULT 'sistema',
+  created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Índices para búsquedas rápidas en historial
