@@ -1,6 +1,7 @@
 -- ════════════════════════════════════════════════════════════════
---  PORTERÍA CARREFOUR — Schema PostgreSQL (Neon)
---  Ejecutar una sola vez en la consola SQL de Neon
+--  PORTERÍA CARREFOUR — Schema PostgreSQL (Supabase)
+--  Refleja la estructura real de la base de datos en producción.
+--  Ejecutar una sola vez en el SQL Editor de Supabase.
 -- ════════════════════════════════════════════════════════════════
 
 -- Tabla de registros de ingresos/egresos
@@ -17,8 +18,7 @@ CREATE TABLE IF NOT EXISTS registros (
   modulo          TEXT DEFAULT 'general',
   egreso_temprano BOOLEAN DEFAULT FALSE,
   grupo_id        TEXT,
-  usuario         TEXT DEFAULT 'sistema',
-  created_at      TIMESTAMPTZ DEFAULT NOW()
+  usuario         TEXT DEFAULT 'sistema'
 );
 
 -- Índices para búsquedas rápidas en historial
@@ -32,8 +32,7 @@ CREATE TABLE IF NOT EXISTS config (
   id         SERIAL PRIMARY KEY,
   categoria  TEXT NOT NULL,
   valor      TEXT NOT NULL,
-  activo     BOOLEAN DEFAULT TRUE,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  activo     BOOLEAN DEFAULT TRUE
 );
 
 CREATE INDEX IF NOT EXISTS idx_config_categoria ON config (categoria);
@@ -48,20 +47,10 @@ CREATE TABLE IF NOT EXISTS usuarios (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Tabla de auditoría
-CREATE TABLE IF NOT EXISTS auditoria (
-  id         SERIAL PRIMARY KEY,
-  accion     TEXT NOT NULL,
-  usuario    TEXT NOT NULL,
-  detalle    TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
 -- ════════════════════════════════════════════════════════════════
 --  DATOS INICIALES
 -- ════════════════════════════════════════════════════════════════
 
--- Usuarios iniciales (mismos que el HTML actual)
 INSERT INTO usuarios (username, password, rol) VALUES
   ('admin',    'admin123',    'admin'),
   ('porteria', 'porteria1',   'porteria'),
