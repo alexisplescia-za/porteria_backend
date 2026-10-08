@@ -6,6 +6,7 @@ const pool      = require('./db');
 const registros = require('./routes/registros');
 const config    = require('./routes/config');
 const usuarios  = require('./routes/usuarios');
+const backup    = require('./routes/backup');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/api/registros', registros);
 app.use('/api/config',    config);
 app.use('/api/usuarios',  usuarios);
+app.use('/api/backup',    backup);   // sólo lectura, con clave (Apps Script)
 
 // Ping — query real a Supabase para mantener la DB activa
 app.get('/api/ping', async (req, res) => {
